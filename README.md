@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.com/dahlfrederik/3sem_exam_backend_fbd.svg?branch=main)](https://travis-ci.com/dahlfrederik/3sem_exam_backend_fbd)
 
 *This project is meant as start code for upcoming projects which will use an endomondo like structure"*
 
