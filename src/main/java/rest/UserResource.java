@@ -83,6 +83,7 @@ public class UserResource {
         return "User added";
     }
 
+    //REMOVE FROM PRODUCTION 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("populate")
