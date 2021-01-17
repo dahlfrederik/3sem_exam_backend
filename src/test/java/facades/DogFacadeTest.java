@@ -40,7 +40,9 @@ public class DogFacadeTest {
         try {
 
             em.getTransaction().begin();
-
+            em.createQuery("DELETE from Dog").executeUpdate();
+            em.createQuery("DELETE from Role").executeUpdate();
+            em.createQuery("DELETE from User").executeUpdate();
             User user = new User("testUser", "kode123");
             Role userRole = new Role("user");
             user.addRole(userRole);
