@@ -10,6 +10,7 @@ import entities.Role;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,10 +38,8 @@ public class DogFacadeTest {
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
+
             em.getTransaction().begin();
-            em.createQuery("DELETE from Dog").executeUpdate();
-            em.createQuery("DELETE from Role").executeUpdate();
-            em.createQuery("DELETE from User").executeUpdate();
 
             User user = new User("testUser", "kode123");
             Role userRole = new Role("user");
@@ -51,6 +50,23 @@ public class DogFacadeTest {
             em.persist(userRole);
             em.persist(user);
             em.persist(dog);
+
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    @AfterEach
+    public void destroy() {
+        EntityManager em = emf.createEntityManager();
+        try {
+
+            em.getTransaction().begin();
+
+            em.createQuery("DELETE from Dog").executeUpdate();
+            em.createQuery("DELETE from Role").executeUpdate();
+            em.createQuery("DELETE from User").executeUpdate();
 
             em.getTransaction().commit();
         } finally {
