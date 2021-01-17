@@ -4,6 +4,7 @@ import DTO.BreedDTO;
 import DTO.BreedDTOs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import facades.BreedFacade;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -12,6 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 public class DataFetcher {
 
@@ -89,7 +92,14 @@ public class DataFetcher {
 
         String breedToJson = gson.toJson(finalBreed);
 
-        System.out.println(breedToJson);
+        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
+        BreedFacade facade = BreedFacade.getFacadeExample(emf);
+        EntityManager em = emf.createEntityManager();
+
+        facade.generateSearchData(finalBreed);
+
+        em.close();
+
         return breedToJson;
 
     }
@@ -97,6 +107,6 @@ public class DataFetcher {
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException, IOException {
         ExecutorService es = Executors.newCachedThreadPool();
 
-        fetchDogInformation(es, "boxer");
+        fetchDogInformation(es, "beagle");
     }
 }
