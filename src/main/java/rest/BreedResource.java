@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -24,15 +25,23 @@ import utils.DataFetcher;
  */
 @Path("breed")
 public class BreedResource {
-
+    
     private ExecutorService es = Executors.newCachedThreadPool();
-
+    
     @Context
     private UriInfo context;
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getBreeds() throws IOException, InterruptedException, ExecutionException, TimeoutException {
-        return DataFetcher.fetchDogInformation(es);
+        return DataFetcher.fetchBreedInformation(es);
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{breed}")
+    public String getInformationAboutBreed(@PathParam("breed") String breed) throws IOException, InterruptedException, ExecutionException, TimeoutException {
+        return DataFetcher.fetchDogInformation(es, breed);
+    }
+    
 }
