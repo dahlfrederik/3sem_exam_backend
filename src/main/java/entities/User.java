@@ -19,6 +19,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "users")
+
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +39,7 @@ public class User implements Serializable {
     @ManyToMany
     private List<Role> roleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Dog> dogList;
 
     public List<String> getRolesAsStrings() {
@@ -70,6 +71,7 @@ public class User implements Serializable {
     public User(String userName, String userPass) {
         this.userName = userName;
         this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+        this.dogList = new ArrayList<>();
     }
 
     public String getUserName() {

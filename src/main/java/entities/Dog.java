@@ -28,7 +28,7 @@ public class Dog implements Serializable {
     private String dogName;
     private int age;
     private String breed;
-    private double weight;
+    private String info;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
@@ -36,12 +36,12 @@ public class Dog implements Serializable {
     public Dog() {
     }
 
-    public Dog(String dogName, int age, String breed, double weight, User user) {
+    public Dog(String dogName, int age, String breed, String info) {
         this.dogName = dogName;
         this.age = age;
         this.breed = breed;
-        this.weight = weight;
-        this.user = user;
+        this.info = info;
+
     }
 
     public int getId() {
@@ -76,12 +76,12 @@ public class Dog implements Serializable {
         this.breed = breed;
     }
 
-    public double getWeight() {
-        return weight;
+    public String getInfo() {
+        return info;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public User getUser() {
