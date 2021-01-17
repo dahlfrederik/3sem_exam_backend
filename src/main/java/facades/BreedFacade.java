@@ -9,13 +9,11 @@ import DTO.BreedDTO;
 import DTO.SearchesDTO;
 import entities.Breed;
 import entities.Searches;
-import errorhandling.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import utils.EMF_Creator;
 
 /**
  *
@@ -107,12 +105,4 @@ public class BreedFacade {
 
     }
 
-    public static void main(String[] args) throws NotFoundException {
-        emf = EMF_Creator.createEntityManagerFactory();
-        BreedFacade facade = BreedFacade.getFacadeExample(emf);
-        EntityManager em = emf.createEntityManager();
-
-        System.out.println(facade.searchCounterForSpecificBreed("beagle"));
-        System.out.println(facade.searchCounterForAll());
-    }
 }

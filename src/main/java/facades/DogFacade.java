@@ -8,13 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import utils.EMF_Creator;
 import javax.persistence.TypedQuery;
 
-/**
- *
- * Rename Class to a relevant name Add add relevant facade methods
- */
 public class DogFacade {
 
     private static DogFacade instance;
@@ -97,16 +92,6 @@ public class DogFacade {
         } finally {
             em.close();
         }
-    }
-
-    public static void main(String[] args) throws NotFoundException {
-        emf = EMF_Creator.createEntityManagerFactory();
-        DogFacade facade = DogFacade.getFacadeExample(emf);
-        EntityManager em = emf.createEntityManager();
-
-//        instance.addDog("Oggy", 10, "Lagotta", "Info om hunden", "user");
-//        instance.addDog("Bastian", 4, "Sheltie", "Info om hunden", "user");
-        System.out.println(instance.getAllTheUsersDogs("user").get(0).getDogName());
     }
 
 }
