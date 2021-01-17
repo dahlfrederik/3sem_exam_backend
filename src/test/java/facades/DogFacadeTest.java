@@ -10,11 +10,9 @@ import entities.Role;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 
@@ -22,7 +20,7 @@ import utils.EMF_Creator;
  *
  * @author Frederik Dahl <cph-fd76@cphbusiness.dk>
  */
-@Disabled
+//@Disabled
 public class DogFacadeTest {
 
     private static EntityManagerFactory emf;
@@ -41,6 +39,7 @@ public class DogFacadeTest {
         try {
             em.getTransaction().begin();
             em.createQuery("DELETE from Dog").executeUpdate();
+            em.createQuery("DELETE from Role").executeUpdate();
             em.createQuery("DELETE from User").executeUpdate();
 
             User user = new User("testUser", "kode123");
@@ -59,19 +58,10 @@ public class DogFacadeTest {
         }
     }
 
-    @AfterEach
-    public void tearDown() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-
-            em.createQuery("DELETE from Dog").executeUpdate();
-            em.createQuery("DELETE from User").executeUpdate();
-
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+    @Test
+    public void testGetAllDogs() {
+        int result = facade.getAllDogs().size();
+        assertEquals(1, result, "Expects one row in the database");
     }
 
     @Test
@@ -81,6 +71,13 @@ public class DogFacadeTest {
         facade.addDog("Bastian", 4, "Sheltie", "Info om hunden", "testUser");
         int result2 = facade.getAllDogs().size();
         assertEquals(2, result2, "Expected two rows in database");
+    }
+
+    @Test
+    public void testGetAllUsersDogs() {
+        int result = facade.getAllTheUsersDogs("testUser").size();
+        int expected = 1;
+        assertEquals(1, result, "Expected that user has 1 dog in database");
     }
 
 }

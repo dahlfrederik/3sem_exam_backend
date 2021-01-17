@@ -16,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -45,6 +46,14 @@ public class DogResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
         List<DogDTO> dogList = df.getAllDogs();
+        return GSON.toJson(dogList);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{userName}")
+    public String getAllUsersDogs(@PathParam("userName") String userName) {
+        List<DogDTO> dogList = df.getAllTheUsersDogs(userName);
         return GSON.toJson(dogList);
     }
 

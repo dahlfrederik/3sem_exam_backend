@@ -79,6 +79,26 @@ public class DogFacade {
 
     }
 
+    public List<DogDTO> getAllTheUsersDogs(String userName) {
+        EntityManager em = getEntityManager();
+        try {
+
+            TypedQuery<Dog> q1
+                    = em.createQuery("SELECT d FROM Dog d WHERE d.user.userName LIKE :name", Dog.class);
+            List<Dog> dogList = q1.setParameter("name", userName).getResultList();
+
+            List<DogDTO> dogListDTO = new ArrayList();
+            for (Dog dog : dogList) {
+                DogDTO dogDTO = new DogDTO(dog);
+                dogListDTO.add(dogDTO);
+            }
+
+            return dogListDTO;
+        } finally {
+            em.close();
+        }
+    }
+
     public static void main(String[] args) throws NotFoundException {
         emf = EMF_Creator.createEntityManagerFactory();
         DogFacade facade = DogFacade.getFacadeExample(emf);
@@ -86,7 +106,7 @@ public class DogFacade {
 
 //        instance.addDog("Oggy", 10, "Lagotta", "Info om hunden", "user");
 //        instance.addDog("Bastian", 4, "Sheltie", "Info om hunden", "user");
-        System.out.println(instance.getAllDogs());
+        System.out.println(instance.getAllTheUsersDogs("user").get(0).getDogName());
     }
 
 }
