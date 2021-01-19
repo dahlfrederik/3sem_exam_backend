@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import errorhandling.NotFoundException;
 import facades.DogFacade;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -52,6 +53,8 @@ public class DogResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{userName}")
+    //Roles allowed tilføjet efter eksamen for at tilføje role "sikkerhed" så alle ikke kan tilgå endpoint 
+    @RolesAllowed("user")
     public String getAllUsersDogs(@PathParam("userName") String userName) {
         List<DogDTO> dogList = df.getAllTheUsersDogs(userName);
         return GSON.toJson(dogList);
@@ -60,6 +63,8 @@ public class DogResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
+    //Roles allowed tilføjet efter eksamen for at tilføje role "sikkerhed" så alle ikke kan tilgå endpoint 
+    @RolesAllowed("user")
     public String addPerson(String dog) throws NotFoundException {
         DogDTO dogDTO = GSON.fromJson(dog, DogDTO.class);
         df.addDog(dogDTO.getDogName(), dogDTO.getAge(), dogDTO.getBreed(), dogDTO.getInfo(), dogDTO.getUserName());
